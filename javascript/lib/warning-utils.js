@@ -47,7 +47,7 @@ class WarningUtils {
     
     const checks = [
       function() {
-        if (bed[GardenBeds.frontmatterFields.active]) return [];
+        if (bed.active) return [];
         return [`[[${bed.file.name}]] is inactive.`];
       },
       function() {

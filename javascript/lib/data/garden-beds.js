@@ -18,7 +18,18 @@ class GardenBeds {
     { name: "Behind Garage", bedNamePrefix: "BG" },
     { name: "Near Shed", bedNamePrefix: "NS" }
   ];
-  
+
+  proxy(dvBed) {
+    const handler = {
+      get(target, prop, receiver) {
+        const frontmatterProperty = GardenBeds.#frontmatterFields[prop];
+        if (frontmatterProperty) return target[frontmatterProperty];
+        return target[prop];
+      }
+    };
+    return new Proxy(dvBed, handler);
+  }
+
   get frontmatterFields() { return GardenBeds.#frontmatterFields; }
   get gardenBedTag() { return "gardenBed"; }
   get gardenBedTags() {

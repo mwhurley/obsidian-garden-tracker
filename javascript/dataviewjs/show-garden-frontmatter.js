@@ -20,37 +20,30 @@ function toGardenAttribute(key) {
   return { key: key, prefix: key.substring(0, dashIndex), name: name };
 }
 
-// // Gets a field out of the frontmatter and makes sure it isn't falsy.
-// // Throws an error if it is falsy.
-// function getRequiredFrontmatter(frontmatter, attributeName) {
-  // const foundValue = frontmatter[attributeName];
-  // return foundValue ? foundValue : (() => { throw new Error(`Missing required frontmatter value ${attributeName}.`); })();
-// }
-
 // Formats a length value. It will be the numeric value plus the length units.
 // If the prefix is a `glX`, there will be a superscript X after the units.
-function toLengthValue(frontmatter, gardenAttribute) {
-  const units = frontmatter[GardenBeds.frontmatterFields.lengthUnits];
+function toLengthValue(fmProxy, gardenAttribute) {
+  const units = fmProxy.lengthUnits;
   const exponent = gardenAttribute.prefix.length > 2 ? gardenAttribute.prefix.slice(-1) : null;
-  const value = frontmatter[gardenAttribute.key];
+  const value = fmProxy[gardenAttribute.key];
   if (value || typeof value === "number") {
     if (units) return Units.formatValue(value, units, exponent);
     else return value;
   }
-  return "";s
+  return "";
 }
 
 // Formats a garden frontmatter attribute as a data item that will be displayed.
-function toDataItem(frontmatter, gardenAttribute) {
-  let value = frontmatter[gardenAttribute.key];
-  if (gardenAttribute.prefix.startsWith("gl")) value = toLengthValue(frontmatter, gardenAttribute);
+function toDataItem(fmProxy, gardenAttribute) {
+  let value = fmProxy[gardenAttribute.key];
+  if (gardenAttribute.prefix.startsWith("gl")) value = toLengthValue(fmProxy, gardenAttribute);
   return { name: gardenAttribute.name, value: value };
 }
 
 const gardenValues = Object.keys(dv.current().file.frontmatter)
                            .map(key => toGardenAttribute(key))
                            .filter(x => x) // Only keep frontmatter attributes that are garden related.
-                           .map(attr => toDataItem(dv.current().file.frontmatter, attr));
+                           .map(attr => toDataItem(GardenBeds.proxy(dv.current().file.frontmatter), attr));
 const data = dv.current().file.frontmatter.active == false ?
                [ { name: "<span class='inactive-indicator'>Inactive</span>", value: "" } ].concat(gardenValues)
                : gardenValues;
