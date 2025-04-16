@@ -21,7 +21,7 @@ class WarningUtils {
   #findPlantingWarnings(dv, planting, season, state) {
     const { GardenGrowingSeasons, GardenPlantings } = customJS;
     
-    const currentStatus = planting[GardenPlantings.frontmatterFields.status];
+    const currentStatus = planting.status;
     if (!GardenPlantings.warnablePlantingStatuses.includes(currentStatus)) return { warnings: [], state: state };
     
     let savedState = state;
@@ -33,7 +33,7 @@ class WarningUtils {
     }
     
     const family = GardenPlantings.family(dv, planting);
-    const bed = dv.page(planting[GardenPlantings.frontmatterFields.bed]);
+    const bed = dv.page(planting.bed);
     let familyWarnings = [];
     if (family.rotateYears) familyWarnings = this.#findPlantingFamilyWarnings(dv, planting, bed, season, family, savedState);
     const seedWarnings = this.#findPlantingSeedWarnings(dv, planting, bed);
@@ -51,15 +51,15 @@ class WarningUtils {
         return [`[[${bed.file.name}]] is inactive.`];
       },
       function() {
-        const seed = dv.page(planting[GardenPlantings.frontmatterFields.crop]);
+        const seed = dv.page(planting.crop);
         const sameSeedInBed = GardenGrowingSeasons.plantings(dv, season)
                                                   .where(p => planting.file.name !== p.file.name)
                                                   .where(p => {
-                                                    const otherBed = dv.page(p[GardenPlantings.frontmatterFields.bed]);
+                                                    const otherBed = dv.page(p.bed);
                                                     return bed.file.name === otherBed.file.name;
                                                   })
                                                   .where(p => {
-                                                    const otherSeed = dv.page(p[GardenPlantings.frontmatterFields.crop]);
+                                                    const otherSeed = dv.page(p.crop);
                                                     return seed.file.name === otherSeed.file.name;
                                                   });
         const warnings = sameSeedInBed.array().map(p => {
@@ -77,7 +77,7 @@ class WarningUtils {
   #findPlantingSeedWarnings(dv, planting, bed) {
     const { GardenConfig, GardenPlantings, GardenSeeds } = customJS;
     
-    const crop = dv.page(planting[GardenPlantings.frontmatterFields.crop]);
+    const crop = dv.page(planting.crop);
     if (!crop.file.tags.includes(`#${GardenSeeds.tag}`)) return [];
     const brand = dv.page(crop.brand);
     const checks = [
@@ -107,7 +107,7 @@ class WarningUtils {
                           .where(x => x.family.name === family.name)
                           .flatMap(x => {
                             const thisYear = season.startDate.year;
-                            const otherSeason = dv.page(x.planting[GardenPlantings.frontmatterFields.growingSeason]);
+                            const otherSeason = dv.page(x.planting.growingSeason);
                             const otherYear = otherSeason.startDate.year;
                             if (otherYear < thisYear && otherYear >= (thisYear - family.rotateYears + 1)) {
                               return [`[[${bed.file.name}]] had ${family.displayName} planted in [[${otherSeason.file.name}]].`];

@@ -1,14 +1,4 @@
 class GardenPlantings {
-  static #frontmatterFields = {
-    tags: "tags",
-    growingSeason: "growingSeason",
-    bed: "bed",
-    crop: "crop",
-    status: "_status",
-    displayStatus: "status",
-    statusDate: "statusDate"
-  };
-  
   static #plantingStatuses = {
     "Planning": { displayName: "📋Planning", showWarnings: true },
     "GrowingSeedlings": { displayName: "🪴Growing Seedlings", showWarnings: true },
@@ -31,7 +21,6 @@ class GardenPlantings {
     return { name: category.family, ...family };
   }
   
-  get frontmatterFields() { return GardenPlantings.#frontmatterFields; }
   get plantingStatuses() { return GardenPlantings.#plantingStatuses; }
   get warnablePlantingStatuses() { return GardenPlantings.#warnablePlantingStatuses; }
   get tag() { return "planting"; }

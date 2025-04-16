@@ -28,18 +28,18 @@ const statuses = Object.entries(GardenPlantings.plantingStatuses);
 let status = await tp.system.suggester((x => x[1].displayName), statuses, null, `Select the planting status for ${finalName}.`);
 if (!status) status = statuses.find(x => x[0] === "Planning");
 %>
-<% GardenPlantings.frontmatterFields.tags %>: [ <% GardenPlantings.tags.concat([GardenGrowingSeasons.seasonTag(season)]).join(", ") %> ]
-<% GardenPlantings.frontmatterFields.growingSeason %>: "<% `[[${season.file.name}]]` %>"
-<% GardenPlantings.frontmatterFields.bed %>: "<% `[[${bed.file.name}]]` %>"
-<% GardenPlantings.frontmatterFields.crop %>: "<% `[[${seed.file.name}]]` %>"
-<% GardenPlantings.frontmatterFields.status %>: <% status[0] %>
-<% GardenPlantings.frontmatterFields.displayStatus %>: <% status[1].displayName %>
-<% GardenPlantings.frontmatterFields.statusDate %>: <% DateUtils.toISODateString(new Date()) %>
+tags: [ <% GardenPlantings.tags.concat([GardenGrowingSeasons.seasonTag(season)]).join(", ") %> ]
+growingSeason: "<% `[[${season.file.name}]]` %>"
+bed: "<% `[[${bed.file.name}]]` %>"
+crop: "<% `[[${seed.file.name}]]` %>"
+_status: <% status[0] %>
+status: <% status[1].displayName %>
+statusDate: <% DateUtils.toISODateString(new Date()) %>
 ---
 ```dataviewjs
 const { ArrayUtils, GardenPlantings, WarningUtils } = await cJS();
 
-const season = dv.page(dv.current()[GardenPlantings.frontmatterFields.growingSeason]);
+const season = dv.page(dv.current().growingSeason);
 const warnings = WarningUtils.findPlantingWarnings(dv, dv.current(), season);
 if (warnings.length > 0) ArrayUtils.insertDataviewCalloutFromArray(dv, "warning", "Planting Warnings", warnings);
 ```

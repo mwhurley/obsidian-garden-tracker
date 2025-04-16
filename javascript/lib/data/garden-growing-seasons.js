@@ -18,7 +18,7 @@ class GardenGrowingSeasons {
     const seasonTag = this.seasonTag(season);
     const otherSeasonPlantings = dv.pages(`#${GardenPlantings.tag} and !#${seasonTag}`)
                                    .map(x => {
-                                     const bed = dv.page(x[GardenPlantings.frontmatterFields.bed]);
+                                     const bed = dv.page(x.bed);
                                      const family = GardenPlantings.family(dv, x);
                                      return { planting: x, bed: bed, family: family };
                                    });
