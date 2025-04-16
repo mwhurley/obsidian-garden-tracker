@@ -1,6 +1,6 @@
 ---
 <%-*
-const { AbortedTemplaterTemplate, DateUtils, EmojiUtils, GardenBeds, GardenDefaults, GardenGrowingSeasons, GardenSeeds, GardenPlantings, GardenPlantDefinitions, TemplaterUtils } = await cJS();
+const { AbortedTemplaterTemplate, DateUtils, EmojiUtils, GardenBeds, GardenConfig, GardenGrowingSeasons, GardenSeeds, GardenPlantings, GardenPlantDefinitions, TemplaterUtils } = await cJS();
 
 const name = await tp.system.prompt("Planting name:");
 if(AbortedTemplaterTemplate.cleanupIfPromptAborted(tp, name)) return;
@@ -36,8 +36,9 @@ _status: <% status[0] %>
 status: <% status[1].displayName %>
 statusDate: <% DateUtils.toISODateString(new Date()) %>
 ---
+
 ```dataviewjs
-const { ArrayUtils, GardenPlantings, WarningUtils } = await cJS();
+const { ArrayUtils, WarningUtils } = await cJS();
 
 const season = dv.page(dv.current().growingSeason);
 const warnings = WarningUtils.findPlantingWarnings(dv, dv.current(), season);

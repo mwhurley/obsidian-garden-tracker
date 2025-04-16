@@ -1,12 +1,12 @@
 ---
 <%-*
-const { AbortedTemplaterTemplate, GardenBrands, GardenDefaults } = await cJS();
+const { AbortedTemplaterTemplate, GardenBrands, GardenConfig } = await cJS();
 const fs = require("fs");
 
 const name = await tp.system.prompt("Brand's name:", null, true);
 if (AbortedTemplaterTemplate.cleanupIfPromptAborted(tp, name)) return;
-const prefixIndex = Date.now() % (GardenDefaults.itemPrefixes.brand.length / 2);
-const prefix = String.fromCodePoint(GardenDefaults.itemPrefixes.brand.codePointAt(prefixIndex * 2));
+const prefixIndex = Date.now() % (GardenConfig.itemPrefixes.brand.length / 2);
+const prefix = String.fromCodePoint(GardenConfig.itemPrefixes.brand.codePointAt(prefixIndex * 2));
 const finalName = prefix + name;
 await tp.file.rename(finalName);
 
@@ -14,7 +14,7 @@ const logo = await tp.system.prompt(`${finalName} logo path or URL (will be copi
 let logoPath = "";
 if (logo) {
   const extension = logo.split(".").pop();
-  const trackerResources = GardenDefaults.trackerResourcesPath;
+  const trackerResources = GardenConfig.trackerResourcesPath;
   logoPath = `${trackerResources}/${name}-logo.${extension}`;
   await app.vault.adapter.mkdir(trackerResources);
   
@@ -46,6 +46,7 @@ itemWebsiteSearch: "<% itemWebsiteSearch %>"
 cssclasses:
   - hide-properties
 ---
+
 <%-* if (logo) { %>
 ![[<% logoPath %>|200]]
 <%-* } %>

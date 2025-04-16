@@ -1,6 +1,6 @@
 ---
 <%-*
-const { AbortedTemplaterTemplate, GardenDefaults, GardenBeds, TemplaterUtils } = await cJS();
+const { AbortedTemplaterTemplate, GardenConfig, GardenBeds, TemplaterUtils } = await cJS();
 
 const name = await tp.system.prompt("Bed name:");
 if(AbortedTemplaterTemplate.cleanupIfPromptAborted(tp, name)) return;
@@ -8,10 +8,10 @@ if(AbortedTemplaterTemplate.cleanupIfPromptAborted(tp, name)) return;
 const bedGroup = await tp.system.suggester(x => x.name, GardenBeds.groups, null, `Pick the bed group for ${name}.`);
 const bedGroupName = bedGroup ? bedGroup.name : "";
 const bedName = (bedGroup ? bedGroup.bedNamePrefix : tp.config.template_file.basename.replace("Garden Inventory - ", "")) + ` ${name}`
-const finalName = GardenDefaults.itemPrefixes.raisedBed + bedName;
+const finalName = GardenConfig.itemPrefixes.raisedBed + bedName;
 await tp.file.rename(finalName);
 
-const units = await tp.system.prompt(`Length units for ${finalName}:`, GardenDefaults.lengthUnits);
+const units = await tp.system.prompt(`Length units for ${finalName}:`, GardenConfig.lengthUnits);
 const width = await TemplaterUtils.promptNumber(tp, `Width of ${finalName} (${units}):`);
 const length = await TemplaterUtils.promptNumber(tp, `Length of ${finalName} (${units}):`);
 const height = await TemplaterUtils.promptNumber(tp, `Height of ${finalName} (${units}):`);
@@ -29,6 +29,7 @@ const height = await TemplaterUtils.promptNumber(tp, `Height of ${finalName} (${
 cssclasses:
   - hide-properties
 ---
+
 ```dataviewjs
 await dv.view("javascript/dataviewjs/show-garden-frontmatter")
 ```

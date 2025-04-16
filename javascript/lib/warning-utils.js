@@ -21,7 +21,7 @@ class WarningUtils {
   #findPlantingWarnings(dv, planting, season, state) {
     const { GardenGrowingSeasons, GardenPlantings } = customJS;
     
-    const currentStatus = planting.status;
+    const currentStatus = planting._status;
     if (!GardenPlantings.warnablePlantingStatuses.includes(currentStatus)) return { warnings: [], state: state };
     
     let savedState = state;

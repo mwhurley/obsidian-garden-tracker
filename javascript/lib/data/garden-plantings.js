@@ -15,7 +15,7 @@ class GardenPlantings {
   family(dv, planting) {
     const { GardenPlantDefinitions } = customJS;
     
-    const crop = dv.page(planting[this.frontmatterFields.crop]);
+    const crop = dv.page(planting.crop);
     const category = GardenPlantDefinitions.categories[crop._category];
     const family = GardenPlantDefinitions.families[category.family];
     return { name: category.family, ...family };
