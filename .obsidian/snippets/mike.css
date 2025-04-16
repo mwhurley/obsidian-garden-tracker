@@ -1,0 +1,32 @@
+/* Updates generated dataview tables to have columns only as wide as necessary based on header and content. */
+table.dataview {
+  table-layout: auto !important;
+  width: unset !important;
+  max-width: 100%;
+}
+
+/* Hides row counts from generated dataview table headers. */
+.dataview.small-text { display: none; }
+
+/* Pages tagged white-logo-background will have images with filenames containing logo
+   have a white background. Generally used to work around images that don't look
+   nice with dark mode, and would still look nice in light mode. */
+.white-logo-background img[src*="logo"] {
+  background-color: white;
+}
+
+/* Hide the note properties shown up top on certain notes. */
+.hide-properties .metadata-container { display: none !important; }
+
+/* Some notes represent things that can be inactive.
+   Make that status noticeable. */
+.inactive-indicator {
+  color: red;
+  font-weight: bold;
+}
+
+/* When a note shows its properties in a property editor, hide any starting with _. */
+.metadata-property[data-property-key^="_"] { display: none !important; }
+
+/* Don't shorten property names in the key/value editor. */
+.metadata-property-key { width: fit-content; }

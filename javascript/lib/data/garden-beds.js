@@ -1,0 +1,31 @@
+class GardenBeds {
+  static #frontmatterFields = {
+    active: "active",
+    tags: "tags",
+    bedGroup: "g-Bed_Group",
+    lengthUnits: "gu-LengthUnits",
+    length: "gl-Length",
+    width: "gl-Width",
+    height: "gl-Height",
+    perimeter: "gl-Perimeter",
+    area: "gl2-Area",
+    volume: "gl3-Volume"
+  };
+  
+  static #groups = [
+    // Generally will be displayed in this order.
+    { name: "Lower Patio", bedNamePrefix: "LP" },
+    { name: "Behind Garage", bedNamePrefix: "BG" },
+    { name: "Near Shed", bedNamePrefix: "NS" }
+  ];
+  
+  get frontmatterFields() { return GardenBeds.#frontmatterFields; }
+  get gardenBedTag() { return "gardenBed"; }
+  get gardenBedTags() {
+    const { GardenDefaults } = customJS;
+    return GardenDefaults.tags.concat([ this.gardenBedTag ]);
+  }
+  get groups() { return GardenBeds.#groups; }
+  get raisedBedTag() { return "raisedBed"; }
+  get raisedBedTags() { return this.gardenBedTags.concat([ this.raisedBedTag ]); }
+}

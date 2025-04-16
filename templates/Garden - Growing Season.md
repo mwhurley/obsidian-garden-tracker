@@ -1,0 +1,24 @@
+---
+<%-*
+const { AbortedTemplaterTemplate, DateUtils, GardenDefaults, GardenGrowingSeasons, TemplaterUtils } = await cJS();
+
+const now = new Date();
+const isoToday = DateUtils.toISODateString(now);
+const startDate = await tp.system.prompt("Growing season start date:", isoToday);
+if(AbortedTemplaterTemplate.cleanupIfPromptAborted(tp, startDate, x => !Date.parse(x))) return;
+const year = (new Date(startDate)).getUTCFullYear();
+await tp.file.rename(`${GardenDefaults.itemPrefixes.growingSeason}${year} Growing Season`);
+
+let endDate = await tp.system.prompt("Growing season end date (if known):");
+if (!Date.parse(endDate)) endDate = null;
+%>
+<% GardenGrowingSeasons.frontmatterFields.tags %>: [ <% GardenGrowingSeasons.tags.concat([`s${year}`]).join(", ") %> ]
+<% GardenGrowingSeasons.frontmatterFields.startDate %>: <% startDate %>
+<% GardenGrowingSeasons.frontmatterFields.endDate %>: <% endDate %>
+---
+```dataviewjs
+const { ArrayUtils, WarningUtils } = await cJS();
+
+const warnings = WarningUtils.findSeasonWarnings(dv, dv.current());
+if (warnings.length > 0) ArrayUtils.insertDataviewCalloutFromArray(dv, "warning", "Planting Warnings", warnings);
+```
