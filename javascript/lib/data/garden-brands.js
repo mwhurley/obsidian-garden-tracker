@@ -6,7 +6,7 @@ class GardenBrands {
   get frontmatterFields() { return GardenBrands.#frontmatterFields; }
   get tag() { return "gardenBrand"; }
   get tags() {
-    const { GardenDefaults } = customJS;
-    return GardenDefaults.tags.concat([ this.tag ]);
+    const { GardenConfig } = customJS;
+    return GardenConfig.tags.concat([ this.tag ]);
   }
 }

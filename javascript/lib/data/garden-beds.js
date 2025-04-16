@@ -22,8 +22,8 @@ class GardenBeds {
   get frontmatterFields() { return GardenBeds.#frontmatterFields; }
   get gardenBedTag() { return "gardenBed"; }
   get gardenBedTags() {
-    const { GardenDefaults } = customJS;
-    return GardenDefaults.tags.concat([ this.gardenBedTag ]);
+    const { GardenConfig } = customJS;
+    return GardenConfig.tags.concat([ this.gardenBedTag ]);
   }
   get groups() { return GardenBeds.#groups; }
   get raisedBedTag() { return "raisedBed"; }

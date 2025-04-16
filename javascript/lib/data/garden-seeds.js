@@ -21,7 +21,7 @@ class GardenSeeds {
   
   get tag() { return "gardenSeeds"; }
   get tags() {
-    const { GardenDefaults, GardenPlantDefinitions } = customJS;
-    return GardenDefaults.tags.concat([ GardenPlantDefinitions.plantTag, this.tag ]);
+    const { GardenConfig, GardenPlantDefinitions } = customJS;
+    return GardenConfig.tags.concat([ GardenPlantDefinitions.plantTag, this.tag ]);
   }
 }

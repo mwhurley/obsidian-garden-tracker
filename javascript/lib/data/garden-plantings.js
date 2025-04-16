@@ -36,7 +36,7 @@ class GardenPlantings {
   get warnablePlantingStatuses() { return GardenPlantings.#warnablePlantingStatuses; }
   get tag() { return "planting"; }
   get tags() {
-    const { GardenDefaults } = customJS;
-    return GardenDefaults.tags.concat([ this.tag ]);
+    const { GardenConfig } = customJS;
+    return GardenConfig.tags.concat([ this.tag ]);
   }
 }

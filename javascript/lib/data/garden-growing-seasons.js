@@ -46,7 +46,7 @@ class GardenGrowingSeasons {
   get frontmatterFields() { return GardenGrowingSeasons.#frontmatterFields; }
   get tag() { return "growingSeason"; }
   get tags() {
-    const { GardenDefaults } = customJS;
-    return GardenDefaults.tags.concat([ this.tag ]);
+    const { GardenConfig } = customJS;
+    return GardenConfig.tags.concat([ this.tag ]);
   }
 }

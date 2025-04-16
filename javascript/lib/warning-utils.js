@@ -75,7 +75,7 @@ class WarningUtils {
   }
   
   #findPlantingSeedWarnings(dv, planting, bed) {
-    const { GardenDefaults, GardenPlantings, GardenSeeds } = customJS;
+    const { GardenConfig, GardenPlantings, GardenSeeds } = customJS;
     
     const crop = dv.page(planting[GardenPlantings.frontmatterFields.crop]);
     if (!crop.file.tags.includes(`#${GardenSeeds.tag}`)) return [];
@@ -87,8 +87,8 @@ class WarningUtils {
       },
       function() {
         const thisYear = new Date().getFullYear();
-        if (thisYear - crop.year < GardenDefaults.oldSeedsAgeYears) return [];
-        return [`Your packet(s) of [[${crop.file.name}]] from [[${brand.file.name}]] are ${GardenDefaults.oldSeedsAgeYears} or more years past their use year.`];
+        if (thisYear - crop.year < GardenConfig.oldSeedsAgeYears) return [];
+        return [`Your packet(s) of [[${crop.file.name}]] from [[${brand.file.name}]] are ${GardenConfig.oldSeedsAgeYears} or more years past their use year.`];
       }
     ];
     return checks.flatMap(f => f());

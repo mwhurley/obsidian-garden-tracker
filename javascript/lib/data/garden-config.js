@@ -1,4 +1,4 @@
-class GardenDefaults {
+class GardenConfig {
   static #tags = [ "garden" ];
   
   static #itemPrefixes = {
@@ -10,8 +10,8 @@ class GardenDefaults {
   };
   
   get lengthUnits() { return "ft"; }
-  get itemPrefixes() { return GardenDefaults.#itemPrefixes; }
+  get itemPrefixes() { return GardenConfig.#itemPrefixes; }
   get oldSeedsAgeYears() { return 5; }
-  get tags() { return GardenDefaults.#tags; }
+  get tags() { return GardenConfig.#tags; }
   get trackerResourcesPath() { return "2 Areas/Garden/🌱Tracker/_resources"; }
 }
