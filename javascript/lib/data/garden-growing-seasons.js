@@ -1,10 +1,4 @@
 class GardenGrowingSeasons {
-  static #frontmatterFields = {
-    tags: "tags",
-    startDate: "startDate",
-    endDate: "endDate"
-  };
-  
   activeSeasons(dv) {
     const openSeasons = dv.pages(`#${this.tag}`)
                           .where(s => !s.endDate)
@@ -43,7 +37,6 @@ class GardenGrowingSeasons {
     return `s${year}`;
   }
   
-  get frontmatterFields() { return GardenGrowingSeasons.#frontmatterFields; }
   get tag() { return "growingSeason"; }
   get tags() {
     const { GardenConfig } = customJS;

@@ -12,9 +12,9 @@ await tp.file.rename(`${GardenDefaults.itemPrefixes.growingSeason}${year} Growin
 let endDate = await tp.system.prompt("Growing season end date (if known):");
 if (!Date.parse(endDate)) endDate = null;
 %>
-<% GardenGrowingSeasons.frontmatterFields.tags %>: [ <% GardenGrowingSeasons.tags.concat([`s${year}`]).join(", ") %> ]
-<% GardenGrowingSeasons.frontmatterFields.startDate %>: <% startDate %>
-<% GardenGrowingSeasons.frontmatterFields.endDate %>: <% endDate %>
+tags: [ <% GardenGrowingSeasons.tags.concat([`s${year}`]).join(", ") %> ]
+startDate: <% startDate %>
+endDate: <% endDate %>
 ---
 ```dataviewjs
 const { ArrayUtils, WarningUtils } = await cJS();

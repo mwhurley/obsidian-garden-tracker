@@ -106,9 +106,9 @@ class WarningUtils {
                           .where(x => x.planting.file.name !== planting.file.name)
                           .where(x => x.family.name === family.name)
                           .flatMap(x => {
-                            const thisYear = season[GardenGrowingSeasons.frontmatterFields.startDate].year;
+                            const thisYear = season.startDate.year;
                             const otherSeason = dv.page(x.planting[GardenPlantings.frontmatterFields.growingSeason]);
-                            const otherYear = otherSeason[GardenGrowingSeasons.frontmatterFields.startDate].year;
+                            const otherYear = otherSeason.startDate.year;
                             if (otherYear < thisYear && otherYear >= (thisYear - family.rotateYears + 1)) {
                               return [`[[${bed.file.name}]] had ${family.displayName} planted in [[${otherSeason.file.name}]].`];
                             }
