@@ -41,7 +41,7 @@ logo: "<% logoPath %>"
 website: "<% website %>"
 <%-* } %>
 <%-* if (itemWebsiteSearch) { %>
-<% GardenBrands.frontmatterFields.itemWebsiteSearch %>: "<% itemWebsiteSearch %>"
+itemWebsiteSearch: "<% itemWebsiteSearch %>"
 <%-* } %>
 cssclasses:
   - hide-properties

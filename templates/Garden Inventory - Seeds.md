@@ -16,9 +16,9 @@ const brand = await tp.system.suggester(x => x.file.name, brands, null, `Select 
 const brandPossessive = brand ? possessivize(brand.file.name) : null;
 
 let itemUrl = "";
-if (brand && brand[GardenBrands.frontmatterFields.itemWebsiteSearch]) {
+if (brand && brand.itemWebsiteSearch) {
   const urlEncodedName = encodeURIComponent(name);
-  const itemUrlTemplate = brand[GardenBrands.frontmatterFields.itemWebsiteSearch];
+  const itemUrlTemplate = brand.itemWebsiteSearch;
   itemUrl = itemUrlTemplate.replace("${name}", urlEncodedName);
 }
 
