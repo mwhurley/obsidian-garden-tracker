@@ -19,11 +19,13 @@ if (logo) {
   await app.vault.adapter.mkdir(trackerResources);
   
   if (logo.startsWith("http")) {
+    // Download the image to the vault.
     const response = await requestUrl(logo);
     if (parseInt(response.status / 100) === 2) {
       await app.vault.adapter.writeBinary(logoPath, response.arrayBuffer);
     } else console.error({ status: response.status, headers: response.headers, url: logo})
   } else {
+    // Copy the image into the vault.
     const logoDest = `${app.vault.adapter.basePath}/${logoPath}`;
     fs.copyFileSync(logo, logoDest);
   }

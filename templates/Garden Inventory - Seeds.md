@@ -2,6 +2,11 @@
 <%-*
 const { AbortedTemplaterTemplate, EmojiUtils, GardenBrands, GardenSeeds, GardenPlantDefinitions, PromptUtils } = await cJS();
 
+/**
+ * Adjusts a name to the possessive form.
+ * @param {string} name - The name to adjust.
+ * @returns {string} The name's possessive form.
+ */
 function possessivize(name) {
   return name.endsWith("'s") ? name : name + "'s";
 }

@@ -1,3 +1,4 @@
+/** Contains plant taxonomy definitions. */
 class GardenPlantDefinitions {
   static #families = {
     "Alliums": { displayName: "🧅Alliums" },
@@ -106,14 +107,50 @@ class GardenPlantDefinitions {
     "Watermelon": { displayName: "🍉Watermelon", family: "Cucurbits" }
   };
   
+  /**
+   * Identifier for a plant family.
+   * @typedef {string} PlantFamilyId
+   */
+  /**
+   * A plant family's details.
+   * @typedef {Object.<string, *>} PlantFamilyDetails
+   * @property {string} displayName - Name to use when displaying the family.
+   * @property {number} rotateYears - How often (in years) this family can be planted in the same bed.
+   */
+  /**
+   * Plant family map.
+   * @typedef {Object.<PlantFamilyId, PlantFamilyDetails>} PlantFamilyMap
+   */
+  /**
+   * Identifier for a plant category.
+   * @typedef {string} PlantCategoryId
+   */
+  /**
+   * A plant category's details.
+   * @typedef {Object.<string, string>} PlantCategoryDetails
+   * @property {string} displayName - Name to use when displaying the category.
+   * @property {PlantFamilyId} family - The plant family this category belongs to.
+   */
+  /**
+   * Plant category map.
+   * @typedef {Object.<PlantCategoryId, PlantCategoryDetails>} PlantCategoryMap
+   */
+  
+  /**
+   * Plant families.
+   * @type {PlantFamilyMap}
+   */
   get families() { return GardenPlantDefinitions.#families; }
+  
+  /**
+   * Plant categories.
+   * @type {PlantCategoryMap}
+   */
   get categories() { return GardenPlantDefinitions.#categories; }
   
-  categoryIdsForFamily(familyId) {
-    return Object.entries(GardenPlantDefinitions.#categories)
-                 .filter(x => x.value.family === familyId)
-                 .map(x => x.key);
-  }
-  
+  /**
+   * Tag that idenitifies a garden plant, without #.
+   * @type {string}
+   */
   get plantTag() { return "gardenPlant"; }
 }

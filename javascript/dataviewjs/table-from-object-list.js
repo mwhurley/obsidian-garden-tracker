@@ -24,6 +24,11 @@ Expected input passed into dv.view: {
 const data = input.data;
 let displayOrdering = input.displayOrdering;
 
+/**
+ * Capitalizes a string.
+ * @param {string} str
+ * @returns {string} str, but capitalized.
+ */
 function capitalize(str) {
   if (str.length <= 1) return str.toUpperCase();
   const firstUpperChar = str[0].toUpperCase();

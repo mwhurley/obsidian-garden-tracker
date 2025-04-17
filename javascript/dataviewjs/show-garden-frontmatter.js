@@ -7,9 +7,20 @@
 
 const { Units, GardenBeds } = await cJS();
 
-// Looks for frontmatter keys that are garden related attributes.
-// If it starts with `g`, eventually has a `-` and the start isn't `gu-`, it's a match.
-// The part before the dash is the prefix, and the part after the dash is the name.
+/**
+ * Garden attribute.
+ * @typedef {Object.<string, string>} GardenAttribute
+ * @property {string} key - Name of the attribute in the frontmatter.
+ * @property {string} prefix - Found attribute prefix.
+ * @property {string} name - The attribute name without the prefix.
+ */
+/**
+ * Looks for frontmatter keys that are garden related attributes.
+ * If it starts with `g`, eventually has a `-` and the start isn't `gu-`, it's a match.
+ * The part before the dash is the prefix, and the part after the dash is the name.
+ * @param {string} key - Name of the attribute in the frontmatter.
+ * @returns {?GardenAttribute} The garden attribute if the key represents one, otherwise null.
+ */
 function toGardenAttribute(key) {
   if (key[0] !== "g" || key.startsWith("gu-")) return null;
   const dashIndex = key.indexOf("-");
@@ -20,8 +31,13 @@ function toGardenAttribute(key) {
   return { key: key, prefix: key.substring(0, dashIndex), name: name };
 }
 
-// Formats a length value. It will be the numeric value plus the length units.
-// If the prefix is a `glX`, there will be a superscript X after the units.
+/**
+ * Formats a length value. It will be the numeric value plus the length units.
+ * If the prefix is a `glX`, there will be a superscript X after the units.
+ * @param {Proxy} fmProxy - Frontmatter wrapped by {@link GardenBeds#proxy}.
+ * @param {GardenAttribute} gardenAttribute - Attribute being formatted.
+ * @returns {string} Formatted length value with units.
+ */
 function toLengthValue(fmProxy, gardenAttribute) {
   const units = fmProxy.lengthUnits;
   const exponent = gardenAttribute.prefix.length > 2 ? gardenAttribute.prefix.slice(-1) : null;
@@ -33,7 +49,18 @@ function toLengthValue(fmProxy, gardenAttribute) {
   return "";
 }
 
-// Formats a garden frontmatter attribute as a data item that will be displayed.
+/**
+ * Garden attribute as a data item.
+ * @typedef {Object.<string, string>} DataItem
+ * @property {string} name - Name to show for the attribute.
+ * @property {string} value - Value of the attribute (with units if a length).
+ */
+/**
+ * Formats a garden frontmatter attribute as a data item that will be displayed.
+ * @param {Proxy} fmProxy - Frontmatter wrapped by {@link GardenBeds#proxy}.
+ * @param {GardenAttribute} gardenAttribute - Attribute to transform.
+ * @returns {DataItem} A data item with the attribute from the frontmatter.
+ */
 function toDataItem(fmProxy, gardenAttribute) {
   let value = fmProxy[gardenAttribute.key];
   if (gardenAttribute.prefix.startsWith("gl")) value = toLengthValue(fmProxy, gardenAttribute);
