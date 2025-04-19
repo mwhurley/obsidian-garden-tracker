@@ -10,22 +10,28 @@ const prefix = String.fromCodePoint(GardenConfig.itemPrefixes.brand.codePointAt(
 const finalName = prefix + name;
 await tp.file.rename(finalName);
 
+async function createLogoResourcePath(logoPath) {
+  const extension = logoPath.split(".").pop();
+  const trackerResources = GardenConfig.trackerResourcesPath;
+  logoResourcePath = `${trackerResources}/${name}-logo.${extension}`;
+  await app.vault.adapter.mkdir(trackerResources);
+  return logoResourcePath;
+}
+
 const logo = await tp.system.prompt(`${finalName} logo path or URL (will be copied or downloaded):`);
 let logoPath = "";
-if (logo) {
-  const extension = logo.split(".").pop();
-  const trackerResources = GardenConfig.trackerResourcesPath;
-  logoPath = `${trackerResources}/${name}-logo.${extension}`;
-  await app.vault.adapter.mkdir(trackerResources);
-  
+if (logo) {  
   if (logo.startsWith("http")) {
     // Download the image to the vault.
+    const url = new URL(logo);
+    logoPath = await createLogoResourcePath(url.pathname);
     const response = await requestUrl(logo);
     if (parseInt(response.status / 100) === 2) {
       await app.vault.adapter.writeBinary(logoPath, response.arrayBuffer);
     } else console.error({ status: response.status, headers: response.headers, url: logo})
   } else {
     // Copy the image into the vault.
+    logoPath = await createLogoResourcePath(logo);
     const logoDest = `${app.vault.adapter.basePath}/${logoPath}`;
     fs.copyFileSync(logo, logoDest);
   }
