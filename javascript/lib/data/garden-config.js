@@ -4,7 +4,7 @@ class GardenConfig {
   
   static #itemPrefixes = {
     raisedBed: "🟫", // Brown square.
-    brand: "🌻🍓🫐🌺🌼🥬🌿", // One of these will be picked at random.
+    brand: "🛒",
     growingSeason: "📅",
     tableCategoryIndicator: "🍅",
     warning: "⚠️"
@@ -38,5 +38,5 @@ class GardenConfig {
    * In-vault path to keep downloaded resources like brand logos.
    * @type {string}
    */
-  get trackerResourcesPath() { return "2 Areas/Garden/🌱Tracker/_resources"; }
+  get trackerResourcesPath() { return "🌱Tracker/_resources"; }
 }
