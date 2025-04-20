@@ -1,6 +1,8 @@
 Helps use notes to track your garden.
 
-(This README is written for Obsidian and may look off on GitHub.)
+This README and that fact that I put JSDocs all over the Javascript code are the only real "product" aspects to this. Otherwise this is just a chunk of my vault uploaded to GitHub to share with others.
+
+This README is written for Obsidian and may look off on GitHub.
 
 ## Prerequisites
 - General familiarity with Obsidian.
@@ -14,6 +16,8 @@ Helps use notes to track your garden.
 - CustomJS plugin installed, plus some familiarity with it.
   - Configured so its scripts folder is the `javascript/lib` folder from this repo.
 - Frontmatter Markdown Links plugin installed.
+  - This can be skipped if Obsidian now supports clickable markdown links in the frontmatter, or if you don't care about having external links clickable.
+  - Some of the templates put external markdown links in the frontmatter. When I wrote this Obsidian only supported making wiki links in frontmatter clickable.
 
 ## Code Structure
 - `.obsidian/snippets/`
@@ -35,27 +39,28 @@ Helps use notes to track your garden.
 1. Look over `javascript/lib/data/garden-beds.js` and adjust the values in `GardenBeds.#groups`. Pick groupings for your raised beds that make sense, probably based on location.
 2. Look over `javascript/lib/data/garden-plant-definitions.js` and adjust plant categories and families, if you want. The safest changes are deleting categories, changing category display names, changing family display names, and changing family `rotateYears`.
 3. Add [[#Inventory]] notes. Recommend placing them under `vault/🌱Tracker` in subfolders named `Brands`, `Raised Beds`, and `Seeds`.
-4. When you want to start planning or tracking a garden, add [[#Growing]] notes. Recommend placing them under `vault/🌱Tracker`. I don't have a recommended structure for this since I haven't used this tracker for real (as of 2025-04-18).
+4. If you want the first growing season using the tracker to be able to give you all warnings, you can add historical growing seasons. You can also add "seeds" for the historical plantings that are just placeholders for plant families. For instance, adding a seed named `Historical Cucurbits` with a squash plant category. Instead of making year folders described in my structure ideas in the next step, you could put all historical stuff in a flat historical folder if you're just going to do placeholders like that.
+5. When you want to start planning or tracking a garden, add [[#Growing]] notes. Recommend placing them under `vault/🌱Tracker`. I don't have a recommended structure for this since I haven't used this tracker for real (as of 2025-04-18).
    - Idea A: Add a year subfolder (sibling to `Brands`). In it put the growing season and planting notes.
    - Idea B: The same as A, but the growing season notes are put in the `vault/🌱Tracker` folder.
 
 ## Example Use
 1. Follow the steps in [[#Setup]]. This example shows how to add the different note types. It assumes you're following the structure described in [[#Setup]] for [[#Inventory]] notes and Idea A for [[#Growing]] notes.
-2. Use the [[Garden Inventory - Brand]] template to add a new brand, call it Example Brand.
+2. Use the [[Garden Inventory - Brand]] template to add a new brand, call it `Example Brand`.
 3. Create a folder under `vault/🌱Tracker` named `Raised Beds`.
-4. Use the [[Garden Inventory - Raised Bed]] template to make a raised bed note in `Raised Beds` named Bed A, and select whichever garden bed group.
+4. Use the [[Garden Inventory - Raised Bed]] template to make a raised bed note in `Raised Beds` named `Bed A`, and select whichever garden bed group.
 5. Create a folder under `vault/🌱Tracker` named `Seeds`.
-6. Use the [[Garden Inventory - Seeds]] template to add a packet of seeds in `Seeds` named `Pink Peas`. Pick one of the pea categories and the Example Brand.
+6. Use the [[Garden Inventory - Seeds]] template to add a packet of seeds in `Seeds` named `Pink Peas`. Pick one of the pea categories and the `Example Brand`.
 7. Create a folder under `vault/🌱Tracker` named as some year.
 8. Use the [[Garden - Growing Season]] template to add a note to that year folder.
-9. Use the [[Garden - Planting]] template to add a planting note to the year folder. Name it `YEAR Pink Peas`. Select the `Pink Peas` seeds, Bed A, and the growing season you made. Select the planning status.
+9. Use the [[Garden - Planting]] template to add a planting note to the year folder. Name it `YEAR Pink Peas`. Select the `Pink Peas` seeds, `Bed A`, and the growing season you made. Select the planning status.
 10. Cue the montage of you figuring out your garden plans!
 11. Since peas are direct sown, we can skip the growing seedlings status. Use Templater to apply the [[Garden Action - Set Planting Status]] template to the planting's note and select the ⛏️Planting In Garden status. You could add a line to the planting's note mentioning the date you started planting.
 12. Go play in the dirt and plant the peas!
 13. If you noted the planting start date, you could also mention the date you finished planting.
 14. Use Templater to apply the [[Garden Action - Set Planting Status]] template to the planting's note and select the ⌛Planted And Growing status.
-15. Water the peas and keep the weeds down. Eat and share as they ripen!
-16. When the peas are done, use Templater to apply the [[Garden Action - Set Planting Status]] template to the planting's note and select the 🌽Harvested status.
+15. Water the peas and keep the weeds down. Eat and share as they ripen! You can add notes to the planting note while things are growing and being eaten. Maybe keep track of how many pounds you've harvested.
+16. When the peas are done, use Templater to apply the [[Garden Action - Set Planting Status]] template to the planting's note and select the 🌽Harvested status. If you really loved or hated the peas, you can add notes to the `Pink Peas` seed note. You could also add `lovedIt` or `hatedIt` tags to the seed note frontmatter if you have strong opinions on that variety.
 17. Edit the growing season's note and set the endDate, since gardening for the year is complete.
 
 ## Garden Concepts
@@ -211,6 +216,6 @@ const groupCallouts = GardenBeds.groups.map(group => {
     return proxy.bedGroup === group.name;
   });
   ArrayUtils.insertDataviewCalloutFromArray(dv, "info", group.name, groupBeds.file.link);
-});
+}).sort(x => x.file.name);
 ```
 ````
