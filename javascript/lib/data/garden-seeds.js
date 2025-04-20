@@ -9,15 +9,17 @@ class GardenSeeds {
   seedDisplayName(dv, seed) {
     const { GardenPlantDefinitions } = customJS;
     const seedName = seed.file.name;
-    const brand = dv.page(seed.brand);
-    const brandName = brand.file.name;
+    let brandName = null;
+    if (seed.brand) {
+      const brand = dv.page(seed.brand);
+      brandName = brand.file.name;
+    }
     const category = GardenPlantDefinitions.categories[seed._category];
     const family = GardenPlantDefinitions.families[category?.family];
 
-    const brandStr = brandName ? `${brandName}` : "";
-    const categoryStr = category ? `, ${category.displayName}` : "";
-    const familyStr = family ? `, ${family.displayName}` : "";
-    const suffix = `${brandStr}${categoryStr}${familyStr}`;
+    const suffix = [brandName, category?.displayName, family?.displayName]
+                     .flatMap(x => x ? [x] : [])
+                     .join(", ");
     return `${seedName}${suffix ? " - " : ""}${suffix}`;
   }
 
