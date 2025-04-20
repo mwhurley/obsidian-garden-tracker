@@ -17,7 +17,7 @@ class GardenBeds {
     // Generally will be displayed in this order.
     { name: "Lower Patio", bedNamePrefix: "LP" },
     { name: "Behind Garage", bedNamePrefix: "BG" },
-    { name: "Near Shed", bedNamePrefix: "NS" }
+    { name: "Near Shed", bedNamePrefix: "SHD" }
   ];
 
   /**
