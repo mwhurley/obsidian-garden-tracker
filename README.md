@@ -1,4 +1,4 @@
-Helps use notes to track your garden.
+Helps use notes to track your garden. Licensed CC BY-NC-SA 4.0 (see [[LICENSE]]).
 
 This README and that fact that I put JSDocs all over the Javascript code are the only real "product" aspects to this. Otherwise this is just a chunk of my vault uploaded to GitHub to share with others.
 
@@ -58,7 +58,6 @@ This README is written for Obsidian and may look off on GitHub.
 9. Use the [[Garden - Planting]] template to add a planting note to the year folder. Name it `YEAR Pink Peas`. Select the `Pink Peas` seeds, `Bed A`, and the growing season you made. Select the planning status.
 10. Cue the montage of you figuring out your garden plans and adding the rest of your plantings.
     - The growing season and planting notes will show warnings if something isn't right.
-    - The growing season note has a planning section you can use to figure out where to put rotated plant families.
 11. Since peas are direct sown, we can skip the growing seedlings status. Use Templater to apply the [[Garden Action - Set Planting Status]] template to the planting's note and select the ⛏️Planting In Garden status. You could add a line to the planting's note mentioning the date you started planting.
 12. Go play in the dirt and plant the peas!
 13. If you noted the planting start date, you could also mention the date you finished planting.
@@ -89,8 +88,7 @@ This README is written for Obsidian and may look off on GitHub.
   - Can be added with the template [[Garden - Growing Season]].
   - Can be selected when the [[Garden - Planting]] template is used to add plantings.
   - The warnings described for plantings are also shown on the season note for all of its plantings.
-  - You can see the season's current plantings.
-  - There is a planning section that can be used to figure out where to put rotated plant families. If the season has plantings and none of them are in the 📋Planning status, the planner will be hidden to declutter the note.
+  - You can see the season's current plantings. If there are no plantings or they are all unplanted some planning helpers will show up. At this point that means each bed will show which of the rotated plant families are allowed.
 - Planting
   - Represents a planting of particular seeds in a particular bed in a growing season.
   - Can be added with the template [[Garden - Planting]].
