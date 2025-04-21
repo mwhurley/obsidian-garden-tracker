@@ -6,10 +6,8 @@ const plantings = GardenGrowingSeasons.plantings(dv, dv.current())
                                         if (p.bed) bed = GardenBeds.proxy(dv.page(p.bed));
                                         return { planting: p, bed: bed };
                                       });
-if (plantings.length === 0) {
-  dv.paragraph("No plantings have been added to this growing season yet.");
-  return;
-}
+
+const allBeds = dv.pages(`#${GardenBeds.gardenBedTag}`);
 
 // Show plantings grouped by bed, but show beds in bed group order.
 GardenBeds.groups.forEach(group => {
@@ -17,13 +15,16 @@ GardenBeds.groups.forEach(group => {
     if (p.bed) return p.bed.bedGroup === group.name;
     return false;
   }).sort(x => x.planting.file.name);
-  if (groupPlantings.length > 0) {
-    const plantingsByBed = groupPlantings.groupBy(x => x.bed.file.name);
-    const sortedBeds = plantingsByBed.map(x => x.key).sort();
-    sortedBeds.forEach(bedName => {
-      const bedPlantings = plantingsByBed.filter(x => x.key === bedName).first().rows.sort(x => x.planting.file.name);
-      const plantingLinks = bedPlantings.map(x => x.planting.file.link);
-      ArrayUtils.insertDataviewCalloutFromArray(dv, "info", `[[${bedName}]]`, plantingLinks, false);
-    });
-  }
+  const plantingsByBed = groupPlantings.groupBy(x => x.bed.file.name);
+  const sortedBeds = allBeds.filter(b => GardenBeds.proxy(b).bedGroup === group.name).map(b => b.file.name).sort();
+  sortedBeds.forEach(bedName => {
+    const bedPlantings = plantingsByBed.filter(x => x.key === bedName)
+                                       .flatMap(x => x.rows.sort(p => p.planting.file.name))
+    const plantingLinks = bedPlantings.map(x => {
+                                        const status = x.planting.status || x.planting._status;
+                                        const statusText = status ? ` (${status})` : "";
+                                        return `[[${x.planting.file.name}]]${statusText}`;
+                                      });
+    ArrayUtils.insertDataviewCalloutFromArray(dv, "info", `[[${bedName}]]`, plantingLinks);
+  });
 });
