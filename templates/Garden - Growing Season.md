@@ -6,7 +6,7 @@ const now = new Date();
 const isoToday = DateUtils.toISODateString(now);
 const startDate = await tp.system.prompt("Growing season start date:", isoToday);
 if(AbortedTemplaterTemplate.cleanupIfPromptAborted(tp, startDate, x => !Date.parse(x))) return;
-const year = (new Date(startDate)).getUTCFullYear();
+const year = (new Date(startDate)).getUTCFullYear(); // Parsing a bare date assumes UTC.
 await tp.file.rename(`${GardenConfig.itemPrefixes.growingSeason}${year} Growing Season`);
 
 let endDate = await tp.system.prompt("Growing season end date (if known):");
