@@ -16,6 +16,7 @@ tp.hooks.on_all_templates_executed(async () => {
     frontmatter._status = status[0];
     frontmatter.status = status[1].displayName;
     frontmatter.statusDate = DateUtils.toISODateString(new Date());
+    if (status[0] === "GrowingSeedlings") frontmatter._lastGrowingSeedlingsDate = frontmatter.statusDate;
   });
 });
 %>

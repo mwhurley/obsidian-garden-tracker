@@ -50,7 +50,9 @@ class WarningUtils {
     const bed = dv.page(planting.bed);
     let familyWarnings = [];
     if (family.rotateYears) familyWarnings = this.#findPlantingFamilyWarnings(dv, planting, bed, season, family, savedState);
-    const seedWarnings = this.#findPlantingSeedWarnings(dv, planting, bed);
+    let seedWarnings = [];
+    const showSeedWarnings = GardenPlantings.plantingStatuses[currentStatus].showSeedWarnings;
+    if (showSeedWarnings && showSeedWarnings(planting)) seedWarnings = this.#findPlantingSeedWarnings(dv, planting, bed);
     const bedWarnings = this.#findPlantingBedWarnings(dv, planting, bed, season);
     const allWarnings = bedWarnings.concat(seedWarnings).concat(familyWarnings);
     return { warnings: allWarnings, state: savedState };

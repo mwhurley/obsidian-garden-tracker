@@ -1,9 +1,9 @@
 /** Helper for interacting with garden planting notes. */
 class GardenPlantings {
   static #plantingStatuses = {
-    "Planning": { displayName: "📋Planning", showWarnings: true },
+    "Planning": { displayName: "📋Planning", showWarnings: true, showSeedWarnings: (p => true) },
     "GrowingSeedlings": { displayName: "🪴Growing Seedlings", showWarnings: true },
-    "Planting": { displayName: "⛏️Planting In Garden", showWarnings: true },
+    "Planting": { displayName: "⛏️Planting In Garden", showWarnings: true, showSeedWarnings: (p => !p._lastGrowingSeedlingsDate) },
     "Growing": { displayName: "⌛Planted And Growing" },
     "Harvested": { displayName: "🌽Harvested" },
     "LostBeforeHarvest": { displayName: "😭Lost Before Harvest" }
@@ -18,10 +18,17 @@ class GardenPlantings {
    * @typedef {string} PlantingStatusId
    */
   /**
+   * Determines if a planting should get a type of warning when in this planting status.
+   * @callback ShowSeedWarningsFunc
+   * @param p The Dataview page object of the planting to check.
+   * @returns {boolean} True if the planting in this planting status should return that type of warning, or false.
+   */
+  /**
    * Details about a planting status.
    * @typedef {Object.<string, *>} PlantingStatusDetails
    * @property {string} displayName - Name to use when displaying the status.
-   * @property {boolean} showWarnings - Indicates if planting warnings should be shown for plantings in this status.
+   * @property {?boolean} showWarnings - Indicates if planting warnings should be shown for plantings in this status.
+   * @property {?ShowSeedWarningsFunc} showSeedWarnings - Function that determines if seed warnings should be shown for a planting.
    */
    /**
     * Planting status map.
