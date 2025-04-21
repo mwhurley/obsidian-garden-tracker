@@ -24,7 +24,3 @@ await dv.view("javascript/dataviewjs/garden-growing-season-show-warnings")
 ```dataviewjs
 await dv.view("javascript/dataviewjs/garden-growing-season-show-current-plantings")
 ```
-## Planning
-```dataviewjs
-await dv.view("javascript/dataviewjs/garden-growing-season-show-planning")
-```

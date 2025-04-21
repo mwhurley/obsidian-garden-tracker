@@ -43,6 +43,8 @@ This README is written for Obsidian and may look off on GitHub.
 5. When you want to start planning or tracking a garden, add [[#Growing]] notes. Recommend placing them under `vault/🌱Tracker`. I don't have a recommended structure for this since I haven't used this tracker for real (as of 2025-04-18).
    - Idea A: Add a year subfolder (sibling to `Brands`). In it put the growing season and planting notes.
    - Idea B: The same as A, but the growing season notes are put in the `vault/🌱Tracker` folder.
+   - Idea C: After I wrote ideas A & B I came up with something that seems to work based off real use. I use A's year folder and under it a `Plantings` folder for the plantings. The growing season still goes in the year folder. I found the plantings cluttered around the growing season with A. This is essentially B just pushed down a folder level.
+	   - This also encourages you to interact with plantings via the growing seasons groupings by bed, especially if you keep the `Plantings` folder collapsed most of the time.
 
 ## Example Use
 1. Follow the steps in [[#Setup]]. This example shows how to add the different note types. It assumes you're following the structure described in [[#Setup]] for [[#Inventory]] notes and Idea A for [[#Growing]] notes.

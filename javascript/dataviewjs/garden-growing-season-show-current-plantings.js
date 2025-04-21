@@ -1,4 +1,11 @@
-const { ArrayUtils, GardenBeds, GardenGrowingSeasons } = await cJS();
+const { ArrayUtils, GardenBeds, GardenGrowingSeasons, GardenPlantings } = await cJS();
+
+let showPlanningHelper = true;
+let plannerHiddenReason = null;
+if (!dv.current().startDate) {
+  plannerHiddenReason = "This growing season does not have a start date, so the planning helpers will not be shown.";
+  showPlanningHelper = false;
+}
 
 const plantings = GardenGrowingSeasons.plantings(dv, dv.current())
                                       .map(p => {
@@ -7,7 +14,20 @@ const plantings = GardenGrowingSeasons.plantings(dv, dv.current())
                                         return { planting: p, bed: bed };
                                       });
 
+if (showPlanningHelper) {
+  const warnablePlantings = plantings.filter(p => GardenPlantings.warnablePlantingStatuses.includes(p.planting._status));
+  if (warnablePlantings.length === 0) {
+    plannerHiddenReason = "This growing season doesn't have any unplanted plantings, so the planning helpers will not be shown.";
+    showPlanningHelper = false;
+  }
+}
+
 const allBeds = dv.pages(`#${GardenBeds.gardenBedTag}`);
+
+let allowedFamiliesByBed = null;
+if (showPlanningHelper) {
+  allowedFamiliesByBed = GardenGrowingSeasons.allowedPossiblePlantFamiliesByBed(dv, dv.current());
+}
 
 // Show plantings grouped by bed, but show beds in bed group order.
 GardenBeds.groups.forEach(group => {
@@ -25,6 +45,11 @@ GardenBeds.groups.forEach(group => {
                                         const statusText = status ? ` (${status})` : "";
                                         return `[[${x.planting.file.name}]]${statusText}`;
                                       });
-    ArrayUtils.insertDataviewCalloutFromArray(dv, "info", `[[${bedName}]]`, plantingLinks);
+    let allowedFamilies = dv.array([]); // wrap it to allow concat
+    if (showPlanningHelper) {
+      const bedFamilies = allowedFamiliesByBed.find(x => x.bedName === bedName).families;
+      allowedFamilies = dv.array([`Allowed rotated families: ${bedFamilies.join(", ")}`]); // wrap it to allow concat
+    }
+    ArrayUtils.insertDataviewCalloutFromArray(dv, "info", `[[${bedName}]]`, allowedFamilies.concat(plantingLinks));
   });
 });

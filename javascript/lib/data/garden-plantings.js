@@ -30,11 +30,22 @@ class GardenPlantings {
    * @property {?boolean} showWarnings - Indicates if planting warnings should be shown for plantings in this status.
    * @property {?ShowSeedWarningsFunc} showSeedWarnings - Function that determines if seed warnings should be shown for a planting.
    */
-   /**
-    * Planting status map.
-    * @typedef {Object.<PlantingStatusId, PlantingStatusDetails>} PlantingStatusMap
-    */
+  /**
+   * Planting status map.
+   * @typedef {Object.<PlantingStatusId, PlantingStatusDetails>} PlantingStatusMap
+   */
   
+  /**
+   * Plant family where the name key is part of the object.
+   * @typedef {PlantFamilyDetails} PlantFamilyDetailsWithName
+   * @property {PlantFamilyId} name
+   */
+  /**
+   * Gets a planting's plant family.
+   * @param dv - Dataview's dv object.
+   * @param planting - Dataview page object of a planting.
+   * @returns PlantFamilyDetailsWithName
+   */
   family(dv, planting) {
     const { GardenPlantDefinitions } = customJS;
     
