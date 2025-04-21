@@ -6,9 +6,9 @@ if (!dv.current().startDate) {
 }
 
 const currentPlantings = GardenGrowingSeasons.plantings(dv, dv.current());
-const currentPlanningPlantings = currentPlantings.filter(x => x._status === "Planning");
+const currentPlanningPlantings = currentPlantings.filter(x => GardenPlantings.warnablePlantingStatuses.includes(x._status));
 if (currentPlantings.length > 0 && currentPlanningPlantings.length === 0) {
-  dv.paragraph("This growing season has plantings and none are in the 📋Planning status, so the planning helper is hidden to declutter this note.");
+  dv.paragraph("This growing season has plantings and none are in a pre-growth status, so the planning helper is hidden to declutter this note.");
   return;
 }
 
