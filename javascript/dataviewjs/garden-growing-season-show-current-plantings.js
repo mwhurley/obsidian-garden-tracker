@@ -30,6 +30,10 @@ if (showPlanningHelper) {
 }
 
 // Show plantings grouped by bed, but show beds in bed group order.
+if (!showPlanningHelper) {
+  const reason = [ plannerHiddenReason ];
+  ArrayUtils.insertDataviewCalloutFromArray(dv, "important", "Planning Helpers Hidden", reason, false);
+}
 GardenBeds.groups.forEach(group => {
   const groupPlantings = plantings.filter(p => {
     if (p.bed) return p.bed.bedGroup === group.name;
