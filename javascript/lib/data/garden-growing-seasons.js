@@ -125,8 +125,7 @@ allowedPossiblePlantFamiliesByBed(dv, season) {
    * @returns {string} The season's tag.
    */
   seasonTag(season) {
-    const year = season.startDate.year;
-    return `s${year}`;
+    return season.tags.find(x => x.startsWith("s") && x.length == 5);
   }
   
   /**
