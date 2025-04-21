@@ -16,7 +16,7 @@ const plantings = GardenGrowingSeasons.plantings(dv, dv.current())
 
 if (showPlanningHelper) {
   const warnablePlantings = plantings.filter(p => GardenPlantings.warnablePlantingStatuses.includes(p.planting._status));
-  if (warnablePlantings.length === 0) {
+  if (plantings.length > 0 && warnablePlantings.length === 0) {
     plannerHiddenReason = "This growing season doesn't have any unplanted plantings, so the planning helpers will not be shown.";
     showPlanningHelper = false;
   }
