@@ -96,6 +96,7 @@ class WarningUtils {
   #findPlantingSeedWarnings(dv, planting, bed) {
     const { GardenConfig, GardenPlantings, GardenSeeds } = customJS;
     
+    if (!planting.crop) return [];
     const crop = dv.page(planting.crop);
     if (!crop.file.tags.includes(`#${GardenSeeds.tag}`)) return [];
     const brand = dv.page(crop.brand);
@@ -105,9 +106,11 @@ class WarningUtils {
         return [`You have no packets of [[${crop.file.name}]] from [[${brand.file.name}]].`];
       },
       function() {
+        if (!crop.year) return [];
         const thisYear = new Date().getFullYear();
         if (thisYear - crop.year < GardenConfig.oldSeedsAgeYears) return [];
-        return [`Your packet(s) of [[${crop.file.name}]] from [[${brand.file.name}]] are ${GardenConfig.oldSeedsAgeYears} or more years past their use year.`];
+        const brandChunk = crop.brand ? ` from [[${dv.page(crop.brand).file.name}]]` : "";
+        return [`Your packet(s) of [[${crop.file.name}]]${brandChunk} are ${GardenConfig.oldSeedsAgeYears} or more years past their 'plant by' year.`];
       }
     ];
     return checks.flatMap(f => f());
