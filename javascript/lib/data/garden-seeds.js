@@ -17,7 +17,8 @@ class GardenSeeds {
     const category = GardenPlantDefinitions.categories[seed._category];
     const family = GardenPlantDefinitions.families[category?.family];
 
-    const suffix = [brandName, category?.displayName, family?.displayName]
+    const packets = seed.openedPackets ? "opened packet(s)" : null;
+    const suffix = [packets, brandName, category?.displayName, family?.displayName]
                      .flatMap(x => x ? [x] : [])
                      .join(", ");
     return `${seedName}${suffix ? " - " : ""}${suffix}`;
