@@ -4,14 +4,17 @@ class GardenPlantings {
     "Planning": { displayName: "📋Planning", showWarnings: true, showSeedWarnings: (p => true) },
     "GrowingSeedlings": { displayName: "🪴Growing Seedlings", showWarnings: true },
     "Planting": { displayName: "⛏️Planting In Garden", showWarnings: true, showSeedWarnings: (p => !p._lastGrowingSeedlingsDate) },
-    "Growing": { displayName: "⌛Planted And Growing" },
-    "Harvested": { displayName: "🌽Harvested" },
-    "LostBeforeHarvest": { displayName: "😭Lost Before Harvest" }
+    "Growing": { displayName: "⌛Planted And Growing", isPlanted: true },
+    "Harvested": { displayName: "🌽Harvested", isPlanted: true },
+    "LostBeforeHarvest": { displayName: "😭Lost Before Harvest", isPlanted: true }
   };
   
   static #warnablePlantingStatuses = Object.entries(GardenPlantings.#plantingStatuses)
                                            .filter(x => x[1].showWarnings)
                                            .map(x => x[0]);
+  static #plantedStatuses = Object.entries(GardenPlantings.#plantingStatuses)
+                                  .filter(x => x[1].isPlanted)
+                                  .map(x => x[0]);
   
   /**
    * Identifier for a planting status.
@@ -63,9 +66,15 @@ class GardenPlantings {
   
   /**
    * Planting statuses that should show warnings for plantings set to them.
-   * @type {PlantingStatusMap}
+   * @type {PlantingStatusId[]}
    */
   get warnablePlantingStatuses() { return GardenPlantings.#warnablePlantingStatuses; }
+  
+  /**
+   * Planting statuses that indicate a planting's plants are in the garden and growing.
+   * @type {PlantingStatusId[]}
+   */
+  get plantedStatuses() { return GardenPlantings.#plantedStatuses; }
   
   /**
    * Tag that idenitifies a garden planting, without #.

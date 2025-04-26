@@ -70,14 +70,18 @@ class WarningUtils {
         const seed = dv.page(planting.crop);
         const sameSeedInBed = GardenGrowingSeasons.plantings(dv, season)
                                                   // Don't compare the target planting with itself.
-                                                  .where(p => planting.file.name !== p.file.name)
+                                                  .filter(p => planting.file.name !== p.file.name)
+                                                  // Only look at plantings not in a planted status.
+                                                  // Don't warn for successive plantings of the same seed.
+                                                  // The planting parameter would be the successor panting, the lambda's p parameter would be the previous planting.
+                                                  .filter(p => !GardenPlantings.plantedStatuses.includes(p._status))
                                                   // Only look at plantings in the same garden bed.
-                                                  .where(p => {
+                                                  .filter(p => {
                                                     const otherBed = dv.page(p.bed);
                                                     return bed.file.name === otherBed.file.name;
                                                   })
                                                   // Only look at plantings using the same seeds.
-                                                  .where(p => {
+                                                  .filter(p => {
                                                     const otherSeed = dv.page(p.crop);
                                                     return seed.file.name === otherSeed.file.name;
                                                   });
@@ -101,11 +105,11 @@ class WarningUtils {
     if (!planting.crop) return [];
     const crop = dv.page(planting.crop);
     if (!crop.file.tags.includes(`#${GardenSeeds.tag}`)) return [];
-    const brand = dv.page(crop.brand);
     const checks = [
       function() {
         if (crop.openedPackets || crop.unopenedPackets) return [];
-        return [`You have no packets of [[${crop.file.name}]] from [[${brand.file.name}]].`];
+        const brandChunk = crop.brand ? ` from [[${dv.page(crop.brand).file.name}]]` : "";
+        return [`You have no packets of [[${crop.file.name}]]${brandChunk}.`];
       },
       function() {
         if (!crop.year) return [];
@@ -124,14 +128,14 @@ class WarningUtils {
     if (!state.otherSeasonPlantingsByBed[bed.file.name]) {
       // Only look up each bed's plantings once.
       const bedPlantings = state.otherSeasonPlantings
-                                .where(x => x.bed.file.name === bed.file.name);
+                                .filter(x => x.bed.file.name === bed.file.name);
       state.otherSeasonPlantingsByBed[bed.file.name] = bedPlantings;
     }
     const warnings = state.otherSeasonPlantingsByBed[bed.file.name]
                           // Don't compare the planting to itself.
-                          .where(x => x.planting.file.name !== planting.file.name)
+                          .filter(x => x.planting.file.name !== planting.file.name)
                           // Only look at plantings of the same plant family.
-                          .where(x => x.family.name === family.name)
+                          .filter(x => x.family.name === family.name)
                           .flatMap(x => {
                             const thisYear = season.startDate.year;
                             const otherSeason = dv.page(x.planting.growingSeason);
